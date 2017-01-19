@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:showIn="@layout/activity_add_item"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.when0matters.xlist.AddItemActivity">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="@string/add_task_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvTaskLbl"
+                android:layout_toLeftOf="@+id/etTask"
+                android:layout_toStartOf="@+id/etTask"
+                android:layout_weight="3"
+                android:layout_alignBottom="@+id/etTask"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/item_padding"
+                android:paddingLeft="?attr/listPreferredItemPaddingLeft" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/etTask"
+                android:layout_weight="1"
+                android:background="@null"
+                android:paddingTop="@dimen/item_padding"
+                android:paddingRight="?attr/listPreferredItemPaddingRight" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="@string/add_priority_label"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textView4"
+                android:layout_weight="3"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:gravity="center_vertical"
+                android:paddingLeft="?attr/listPreferredItemPaddingLeft" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/spinnerPriority"
+                android:layout_weight="1"
+                android:layout_marginTop="?attr/listPreferredItemPaddingLeft"
+                android:layout_marginBottom="?attr/listPreferredItemPaddingLeft"
+                android:paddingRight="?attr/listPreferredItemPaddingRight" />
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="@string/add_description_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvDescription"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+                android:paddingTop="?attr/listPreferredItemPaddingLeft" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:layout_weight="1"
+                android:id="@+id/etDescription"
+                android:lines="5"
+                android:gravity="top"
+                android:background="@null"
+                android:paddingTop="@dimen/item_small_padding"
+                android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+                android:paddingRight="?attr/listPreferredItemPaddingRight" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="@string/add_due_date_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvDueDateLbl"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_weight="1"
+                android:textColorLink="?attr/colorButtonNormal"
+                android:paddingTop="?attr/listPreferredItemPaddingLeft"
+                android:paddingLeft="?attr/listPreferredItemPaddingLeft" />
+
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <DatePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/datePickerDueDate"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"
+                android:layout_weight="1"
+                android:headerBackground="@android:color/holo_blue_dark" />
+        </TableRow>
+    </TableLayout>
+</ScrollView>
+
