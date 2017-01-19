@@ -135,8 +135,7 @@ public class ToDoItem extends SugarRecord implements Parcelable {
         dueDateDay = in.readInt();
         dueDateMth = in.readInt();
         dueDateYear = in.readInt();
-        if (getId() != null)
-            setId(in.readLong());
+        setId(in.readLong());
 
     }
 

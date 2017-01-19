@@ -24,10 +24,10 @@
 
         <meta-data
             android:name="DATABASE"
-            android:value="todoapp.db" />
+            android:value="todo_app.db" />
         <meta-data
             android:name="VERSION"
-            android:value="3" />
+            android:value="1" />
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
