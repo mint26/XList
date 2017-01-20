@@ -10,9 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.when0matters.xlist.Entity.ToDoItem;
 import com.when0matters.xlist.General.Constants;
+import com.when0matters.xlist.General.ItemComparator;
+
+import static com.when0matters.xlist.General.ItemComparator.formatDate;
 
 public class AddItemActivity extends AppCompatActivity {
 
@@ -22,7 +26,7 @@ public class AddItemActivity extends AppCompatActivity {
             ToDoItem.PriorityEnum.Medium.toString(),
             ToDoItem.PriorityEnum.Low.toString()
     };
-
+    String errMsg="";
     int currentMode = Constants.Mode.ADD;
     ToDoItem currentItem = null;
     @Override
@@ -84,13 +88,13 @@ public class AddItemActivity extends AppCompatActivity {
         int day = datePicker.getDayOfMonth();
         int month = datePicker.getMonth() + 1;
         int year = datePicker.getYear();
-
         currentItem.setTask(task);
         currentItem.setDescription(description);
         currentItem.setPriority(currentItem.GetPriorityOrdinal(priority));
         currentItem.setDueDateDay(day);
         currentItem.setDueDateMth(month);
         currentItem.setDueDateYear(year);
+        errMsg = ValidateMandatoryFields(task, formatDate(currentItem));
 
     }
 
@@ -105,16 +109,36 @@ public class AddItemActivity extends AppCompatActivity {
 
     public void returnIntent(){
         bindViewsToItem();
-        currentItem.save();
-        Intent intent = new Intent();
-        intent.putExtra(Constants.TODOITEM, currentItem);
-        setResult(RESULT_OK, intent);
-        finish();
+        if (errMsg == ""){
+            currentItem.save();
+            Intent intent = new Intent();
+            intent.putExtra(Constants.TODOITEM, currentItem);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+        else{
+            Toast.makeText(getApplicationContext(),errMsg,Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void cancelAddItem(){
         Intent intent = new Intent();
         setResult(RESULT_CANCELED, intent);
         finish();
+    }
+
+    public String ValidateMandatoryFields(String task, int selectedDate){
+        String errMsg = "";
+        if (task.trim().isEmpty()){
+            errMsg = Constants.MISSING_TASKNAME;
+            return errMsg;
+        }
+
+        if (selectedDate < ItemComparator.getCurrentDate()){
+            errMsg = Constants.INVALID_DATE;
+            return errMsg;
+        }
+
+        return errMsg;
     }
 }

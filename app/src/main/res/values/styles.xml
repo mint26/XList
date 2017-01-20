@@ -11,7 +11,7 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textColor">@color/colorGrey</item>
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
@@ -22,7 +22,6 @@
     <style name="item_day_subfont" parent="@android:style/TextAppearance.Small">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/colorCalendar</item>
         <item name="android:paddingTop">@dimen/item_padding</item>
         <item name="android:paddingLeft">@dimen/item_padding</item>
         <item name="android:paddingRight">@dimen/item_padding</item>
@@ -37,6 +36,22 @@
 
     <style name="item_title_font" parent="@android:style/TextAppearance.Medium">
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="item_label_font" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textStyle">normal</item>
+        <item name="android:color">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="item_input_font" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/colorGrey</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="app_name" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@color/colorGrey</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
     <style name="item_checkbox">

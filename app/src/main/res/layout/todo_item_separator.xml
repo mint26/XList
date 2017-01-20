@@ -8,7 +8,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_divider_date"
         android:padding="@dimen/item_small_padding"
-        android:background="@color/colorTitle"
-        android:textColor="@color/colorCalendar"
+        android:background="@color/colorGrey"
         android:textStyle="bold"/>
 </LinearLayout>

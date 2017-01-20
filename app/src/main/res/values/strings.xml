@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">XList</string>
-    <string name="action_settings">Settings</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
     <string name="action_save">Save</string>
@@ -12,11 +11,13 @@
     <string name="add_description_label">Description</string>
     <string name="add_due_date_label">Due Date</string>
     <string name="add_priority_label">Priority</string>
-    <string name="add_task_title">New Todo</string>
     <string name="add_task_button">Add</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="cancel">CANCEL</string>
+    <string name="remove_message">ARE YOU SURE YOU WANT TO REMOVE THIS ITEM?</string>
 
-    <string name="item_updated_successfully">Todo item has been updated successfully.</string>
-    <string name="item_added_successfully">New todo item has been added successfully.</string>
-    <string name="item_added_error">Unable to add new todo item. Please try again later.</string>
-    <string name="item_removed">Item has been removed.</string>
+    <string name="item_updated_successfully">Todo item updated successfully.</string>
+    <string name="item_added_successfully">New todo item added successfully.</string>
+    <string name="item_added_error">Error adding, please try again later.</string>
+    <string name="item_removed">Item removed.</string>
 </resources>

@@ -1,8 +1,11 @@
 package com.when0matters.xlist;
 
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     int curPosition;
     ItemComparator itemComparator;
     public boolean includePastItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         lvItems = (ListView) findViewById(R.id.lvItems);
         todoItems = new ArrayList<ToDoItem>();
         itemComparator = new ItemComparator();
-        todoItemAdapter = new ToDoItemsAdapter<ToDoItem>(this,R.layout.todo_item,todoItems);
+        todoItemAdapter = new ToDoItemsAdapter<ToDoItem>(this, R.layout.todo_item, todoItems);
         lvItems.setAdapter(todoItemAdapter);
         setupListViewListener();
         includePastItem = false;
@@ -56,20 +60,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void loadItemsList(boolean includePastItems){
+    private void loadItemsList(boolean includePastItems) {
 
         List<ToDoItem> items = ToDoItem.listAll(ToDoItem.class);
         items = sortItemsList(items);
         int currentDate = itemComparator.getCurrentDate();
-        for (ToDoItem i: items){
-            if (!includePastItems && itemComparator.isPastDates(i,currentDate))
+        for (ToDoItem i : items) {
+            if (!includePastItems && itemComparator.isPastDates(i, currentDate))
                 continue;
             todoItems.add(i);
 
         }
     }
 
-    private List<ToDoItem> sortItemsList(List<ToDoItem> items){
+    private List<ToDoItem> sortItemsList(List<ToDoItem> items) {
         if (items.size() > 0) {
             Collections.sort(items, new ItemComparator());
         }
@@ -78,15 +82,39 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupListViewListener() {
         lvItems.setOnItemLongClickListener(
-                new AdapterView.OnItemLongClickListener()
-                {
+                new AdapterView.OnItemLongClickListener() {
                     @Override
-                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id){
-                        ToDoItem removedItem = todoItems.get(position);
-                        todoItems.remove(position);
-                        removedItem.delete();
-                        todoItemAdapter.notifyDataSetChanged();
-                        Toast.makeText(view.getContext(),getString(R.string.item_removed),Toast.LENGTH_SHORT).show();
+                    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(view.getContext());
+                        final int pos = position;
+                        // set title
+                        alertDialogBuilder.setTitle("Remove " + todoItems.get(pos).getTask());
+                        // set dialog message
+                        alertDialogBuilder
+                                .setMessage(getString(R.string.remove_message))
+                                .setCancelable(false)
+                                .setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        ToDoItem removedItem = todoItems.get(pos);
+                                        todoItems.remove(pos);
+                                        removedItem.delete();
+                                        todoItemAdapter.notifyDataSetChanged();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.item_removed), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                })
+                                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                        // create alert dialog
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+
+                        // show it
+                        alertDialog.show();
                         return true;
                     }
                 });
@@ -100,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         intent.putExtra(Constants.MODE, Constants.Mode.EDIT);
                         ToDoItem toDoItem = (ToDoItem) parent.getItemAtPosition(position);
                         intent.putExtra(Constants.TODOITEM, toDoItem);
-                        startActivityForResult(intent,Constants.EDIT_ITEM_REQUEST_CODE);
+                        startActivityForResult(intent, Constants.EDIT_ITEM_REQUEST_CODE);
                     }
                 }
         );
@@ -141,22 +169,19 @@ public class MainActivity extends AppCompatActivity {
                 todoItems.add(item);
                 sortItemsList(todoItems);
                 todoItemAdapter.notifyDataSetChanged();
-                Toast.makeText(this,getString(R.string.item_added_successfully),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.item_added_successfully), Toast.LENGTH_SHORT).show();
+            } else if (resultCode != RESULT_CANCELED) {
+                Toast.makeText(this, getString(R.string.item_added_error), Toast.LENGTH_SHORT).show();
             }
-            else if (resultCode != RESULT_CANCELED){
-                Toast.makeText(this,getString(R.string.item_added_error),Toast.LENGTH_SHORT).show();
-            }
-        }
-        else if (requestCode == Constants.EDIT_ITEM_REQUEST_CODE) {
+        } else if (requestCode == Constants.EDIT_ITEM_REQUEST_CODE) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 todoItems.clear();
                 loadItemsList(includePastItem);
                 todoItemAdapter.notifyDataSetChanged();
-                Toast.makeText(this,getString(R.string.item_updated_successfully),Toast.LENGTH_SHORT).show();
-            }
-            else if (resultCode != RESULT_CANCELED){
-                Toast.makeText(this,getString(R.string.item_added_error),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.item_updated_successfully), Toast.LENGTH_SHORT).show();
+            } else if (resultCode != RESULT_CANCELED) {
+                Toast.makeText(this, getString(R.string.item_added_error), Toast.LENGTH_SHORT).show();
             }
         }
 

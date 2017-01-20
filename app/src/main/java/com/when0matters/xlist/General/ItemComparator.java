@@ -12,8 +12,8 @@ import java.util.Comparator;
 public class ItemComparator implements Comparator<ToDoItem> {
 
     public int compare(ToDoItem item1, ToDoItem item2) {
-        int date1 = item1.getDueDateYear() * 10000 + item1.getDueDateMth() * 100 + item1.getDueDateDay();
-        int date2 = item2.getDueDateYear() * 10000 + item2.getDueDateMth() * 100 + item2.getDueDateDay();
+        int date1 = formatDate(item1);
+        int date2 = formatDate(item2);
 
         if (date1 > date2)
             return 1;
@@ -24,7 +24,7 @@ public class ItemComparator implements Comparator<ToDoItem> {
     }
 
     public boolean isPastDates(ToDoItem item1,int curDate){
-        int date1 = item1.getDueDateYear() * 10000 + item1.getDueDateMth() * 100 + item1.getDueDateDay();
+        int date1 = formatDate(item1);
 
         if (curDate > date1)
             return true;
@@ -32,13 +32,17 @@ public class ItemComparator implements Comparator<ToDoItem> {
         return false;
     }
 
-    public int getCurrentDate(){
+    public static int getCurrentDate(){
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH);
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         return year * 10000 +  (month + 1) * 100 + day;
 
+    }
+
+    public static int formatDate(ToDoItem item){
+        return item.getDueDateYear() * 10000 + item.getDueDateMth() * 100 + item.getDueDateDay();
     }
 
 

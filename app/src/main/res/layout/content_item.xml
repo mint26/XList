@@ -31,7 +31,8 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:gravity="center_vertical"
                 android:paddingTop="@dimen/item_padding"
-                android:paddingLeft="?attr/listPreferredItemPaddingLeft" />
+                android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+                style="@style/item_label_font"/>
 
             <EditText
                 android:layout_width="wrap_content"
@@ -40,9 +41,9 @@
                 android:ems="10"
                 android:id="@+id/etTask"
                 android:layout_weight="1"
-                android:background="@null"
                 android:paddingTop="@dimen/item_padding"
-                android:paddingRight="?attr/listPreferredItemPaddingRight" />
+                android:paddingRight="?attr/listPreferredItemPaddingRight"
+                style="@style/item_input_font" />
         </TableRow>
 
         <TableRow
@@ -57,7 +58,8 @@
                 android:layout_weight="3"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:gravity="center_vertical"
-                android:paddingLeft="?attr/listPreferredItemPaddingLeft" />
+                android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+                style="@style/item_label_font"/>
 
             <Spinner
                 android:layout_width="match_parent"
@@ -81,7 +83,9 @@
                 android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:paddingLeft="?attr/listPreferredItemPaddingLeft"
-                android:paddingTop="?attr/listPreferredItemPaddingLeft" />
+                android:paddingTop="?attr/listPreferredItemPaddingLeft"
+                style="@style/item_label_font"
+                />
 
         </TableRow>
 
@@ -98,10 +102,10 @@
                 android:id="@+id/etDescription"
                 android:lines="5"
                 android:gravity="top"
-                android:background="@null"
                 android:paddingTop="@dimen/item_small_padding"
                 android:paddingLeft="?attr/listPreferredItemPaddingLeft"
-                android:paddingRight="?attr/listPreferredItemPaddingRight" />
+                android:paddingRight="?attr/listPreferredItemPaddingRight"
+                style="@style/item_input_font"/>
         </TableRow>
 
         <TableRow
@@ -117,7 +121,8 @@
                 android:layout_weight="1"
                 android:textColorLink="?attr/colorButtonNormal"
                 android:paddingTop="?attr/listPreferredItemPaddingLeft"
-                android:paddingLeft="?attr/listPreferredItemPaddingLeft" />
+                android:paddingLeft="?attr/listPreferredItemPaddingLeft"
+                style="@style/item_label_font"/>
 
         </TableRow>
         <TableRow
