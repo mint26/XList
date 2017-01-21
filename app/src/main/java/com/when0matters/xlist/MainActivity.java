@@ -64,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
         List<ToDoItem> items = ToDoItem.listAll(ToDoItem.class);
         items = sortItemsList(items);
-        int currentDate = itemComparator.getCurrentDate();
+        int currentDate = ItemComparator.getCurrentDate();
         for (ToDoItem i : items) {
-            if (!includePastItems && itemComparator.isPastDates(i, currentDate))
+            if (!includePastItems && ItemComparator.isPastDates(i, currentDate))
                 continue;
             todoItems.add(i);
 
