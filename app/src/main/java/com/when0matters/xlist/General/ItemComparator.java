@@ -23,7 +23,7 @@ public class ItemComparator implements Comparator<ToDoItem> {
             return 0;
     }
 
-    public boolean isPastDates(ToDoItem item1,int curDate){
+    public static boolean isPastDates(ToDoItem item1,int curDate){
         int date1 = formatDate(item1);
 
         if (curDate > date1)

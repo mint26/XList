@@ -11,11 +11,11 @@
     <string name="add_description_label">Description</string>
     <string name="add_due_date_label">Due Date</string>
     <string name="add_priority_label">Priority</string>
-    <string name="add_task_button">Add</string>
+
     <string name="confirm">CONFIRM</string>
     <string name="cancel">CANCEL</string>
-    <string name="remove_message">ARE YOU SURE YOU WANT TO REMOVE THIS ITEM?</string>
 
+    <string name="remove_message">ARE YOU SURE YOU WANT TO REMOVE THIS ITEM?</string>
     <string name="item_updated_successfully">Todo item updated successfully.</string>
     <string name="item_added_successfully">New todo item added successfully.</string>
     <string name="item_added_error">Error adding, please try again later.</string>
