@@ -4,7 +4,7 @@ XList is an android app that allows building a todo list and basic todo items ma
 
 Submitted by: Tan Hui Min
 
-Time spent: 20 hours spent in total
+Time spent: 24 hours spent in total
 
 ## User Stories
 
@@ -19,30 +19,33 @@ The following **optional** features are implemented:
 * [X] Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
 * [X] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
 * [X] Add support for completion due dates for todo items (and display within listview item)
-* [ ] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
+* [X] Use a alert dialog to prompt user for confirmation
 * [X] Add support for selecting the priority of each todo item (and display in listview item)
 * [X] Tweak the style improving the UI / UX, play with colors, images or backgrounds
 
 The following **additional** features are implemented:
 
-* [X] Sort the todo items in accordance to its due dates
-* [X] Able to toggle between ongoing or all todo items. 
+* [X] Sort the todo items in accordance to its due dates and able to toggle between ongoing or all todo items. 
+* [X] Validation check on task name and due date
+* [X] Splash screen
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://imgur.com/a/x50Kh' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
+Understand the underlying concepts of android framework
+Designing the UI, figuring out which UI is more intuitive to users. 
+Making the codes maintainable
 
-Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2017 Tan Hui Min
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
