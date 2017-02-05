@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -11,7 +11,6 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:textColor">@color/colorGrey</item>
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
@@ -36,6 +35,7 @@
 
     <style name="item_title_font" parent="@android:style/TextAppearance.Medium">
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
     <style name="item_label_font" parent="@android:style/TextAppearance.Medium">
@@ -45,12 +45,12 @@
     </style>
 
     <style name="item_input_font" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">@color/colorGrey</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="app_name" parent="@android:style/TextAppearance.Large">
-        <item name="android:textColor">@color/colorGrey</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
 
@@ -60,4 +60,32 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingRight">@dimen/item_small_padding</item>
     </style>
+
+    <style name="item_divider" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingTop">@dimen/item_small_padding</item>
+        <item name="android:paddingBottom">@dimen/item_small_padding</item>
+        <item name="android:layout_marginLeft">@dimen/item_margin</item>
+    </style>
+
+    <style name="card" parent="@style/CardView.Light">
+        <item name="android:padding">@dimen/card_padding</item>
+        <item name="android:layout_marginLeft">@dimen/card_margin</item>
+        <item name="android:layout_marginRight">@dimen/card_margin</item>
+        <item name="android:layout_marginBottom">@dimen/card_margin</item>
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="recycler_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/colorWhite</item>
+        <item name="android:color">@color/colorPrimaryDark</item>
+    </style>
+
 </resources>

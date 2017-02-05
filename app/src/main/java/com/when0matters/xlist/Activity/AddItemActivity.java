@@ -1,4 +1,4 @@
-package com.when0matters.xlist;
+package com.when0matters.xlist.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,23 +12,30 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.when0matters.xlist.Entity.ToDoItem;
-import com.when0matters.xlist.General.Constants;
-import com.when0matters.xlist.General.ItemComparator;
+import com.when0matters.xlist.DB.XListSQLiteHelper;
+import com.when0matters.xlist.Helper.Constants;
+import com.when0matters.xlist.Helper.DateHelper;
+import com.when0matters.xlist.Models.Item;
+import com.when0matters.xlist.R;
 
-import static com.when0matters.xlist.General.ItemComparator.formatDate;
+import java.util.Calendar;
+import java.util.Date;
 
 public class AddItemActivity extends AppCompatActivity {
 
     Spinner spinnerPriority;
     String[] arrayPriority = new String[]{
-            ToDoItem.PriorityEnum.High.toString(),
-            ToDoItem.PriorityEnum.Medium.toString(),
-            ToDoItem.PriorityEnum.Low.toString()
+            Item.PriorityEnum.High.toString(),
+            Item.PriorityEnum.Medium.toString(),
+            Item.PriorityEnum.Low.toString()
     };
     String errMsg="";
     int currentMode = Constants.Mode.ADD;
-    ToDoItem currentItem = null;
+    int position;
+    Item currentItem = null;
+    XListSQLiteHelper xListSQLiteHelper;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,17 +46,18 @@ public class AddItemActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, arrayPriority);
         spinnerPriority.setAdapter(adapter);
-
+        xListSQLiteHelper = XListSQLiteHelper.getInstance(this);
 
         Intent intent = getIntent();
         int mode = intent.getIntExtra(Constants.MODE,Constants.Mode.ADD);
         if (mode == Constants.Mode.EDIT){
             currentMode = Constants.Mode.EDIT;
+            position = intent.getIntExtra(Constants.POSITION,-1);
             currentItem = intent.getParcelableExtra(Constants.TODOITEM);
             bindItemToViews();
         }
         else{
-            currentItem = new ToDoItem();
+            currentItem = new Item();
         }
 
     }
@@ -86,32 +94,39 @@ public class AddItemActivity extends AppCompatActivity {
         String priority = ((Spinner)findViewById(R.id.spinnerPriority)).getSelectedItem().toString();
         DatePicker datePicker = (DatePicker)findViewById(R.id.datePickerDueDate);
         int day = datePicker.getDayOfMonth();
-        int month = datePicker.getMonth() + 1;
+        int month = datePicker.getMonth();
         int year = datePicker.getYear();
-        currentItem.setTask(task);
+        Calendar c = Calendar.getInstance();
+        c.set(year, month, day, 0, 0);
+        currentItem.setDueDate(DateHelper.formatDate(c.getTime()));
+        currentItem.setName(task);
         currentItem.setDescription(description);
-        currentItem.setPriority(currentItem.GetPriorityOrdinal(priority));
-        currentItem.setDueDateDay(day);
-        currentItem.setDueDateMth(month);
-        currentItem.setDueDateYear(year);
-        errMsg = ValidateMandatoryFields(task, formatDate(currentItem));
+        currentItem.setPriority(Item.GetPriorityOrdinal(priority));
+        errMsg = ValidateMandatoryFields(task, currentItem.getDate());
 
     }
 
     public void bindItemToViews(){
-        ((EditText)findViewById(R.id.etTask)).setText(currentItem.getTask());
+        ((EditText)findViewById(R.id.etTask)).setText(currentItem.getName());
         ((EditText)findViewById(R.id.etDescription)).setText(currentItem.getDescription());
         ((Spinner)findViewById(R.id.spinnerPriority)).setSelection(currentItem.getPriority());
-        ((DatePicker)findViewById(R.id.datePickerDueDate)).updateDate(currentItem.dueDateYear,
-                                                                    currentItem.dueDateMth-1,
-                                                                    currentItem.dueDateDay);
+        ((DatePicker)findViewById(R.id.datePickerDueDate)).updateDate(currentItem.getYear(),
+                                                                    currentItem.getMonth(),
+                                                                    currentItem.getDay());
     }
 
     public void returnIntent(){
         bindViewsToItem();
         if (errMsg == ""){
-            currentItem.save();
             Intent intent = new Intent();
+            if (currentMode == Constants.Mode.ADD) {
+                Item.addItem(xListSQLiteHelper, currentItem);
+            }
+            else {
+                Item.updateItem(xListSQLiteHelper, currentItem);
+                intent.putExtra(Constants.POSITION,position);
+            }
+
             intent.putExtra(Constants.TODOITEM, currentItem);
             setResult(RESULT_OK, intent);
             finish();
@@ -127,14 +142,18 @@ public class AddItemActivity extends AppCompatActivity {
         finish();
     }
 
-    public String ValidateMandatoryFields(String task, int selectedDate){
+    public String ValidateMandatoryFields(String task, Date itemDate){
         String errMsg = "";
         if (task.trim().isEmpty()){
             errMsg = Constants.MISSING_TASKNAME;
             return errMsg;
         }
+        Calendar cal = Calendar.getInstance();
+        Date currentDate = cal.getTime();
+        String currentDateString = DateHelper.formatDate(currentDate);
+        String itemDateString = DateHelper.formatDate(itemDate);
 
-        if (selectedDate < ItemComparator.getCurrentDate()){
+        if (itemDateString.compareTo(currentDateString) < 0){
             errMsg = Constants.INVALID_DATE;
             return errMsg;
         }

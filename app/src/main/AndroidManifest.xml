@@ -3,27 +3,32 @@
     package="com.when0matters.xlist">
 
     <application
+        android:name=".Application.XListApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashScreenActivity"
+            android:name=".Activity.SplashScreenActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddItemActivity"
+            android:name=".Activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainActivity"
+
+        <activity
+            android:name=".Activity.AddItemActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <meta-data
             android:name="DATABASE"
             android:value="todo_app.db" />
@@ -36,8 +41,6 @@
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.when0matters.xlist.Entity" />
-
-
     </application>
 
 </manifest>

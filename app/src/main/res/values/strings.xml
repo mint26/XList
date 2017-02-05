@@ -20,4 +20,11 @@
     <string name="item_added_successfully">New todo item added successfully.</string>
     <string name="item_added_error">Error adding, please try again later.</string>
     <string name="item_removed">Item removed.</string>
+
+
+    <!--- date time format -->
+    <string name="sdf_default">yyyyMMdd</string>
+    <string name="sdf_month_year">MMM yy</string>
+    <string name="sdf_day">dd</string>
+    <string name="sdf_day_month_year">dd MMM yy</string>
 </resources>

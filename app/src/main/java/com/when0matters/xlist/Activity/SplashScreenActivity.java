@@ -1,8 +1,10 @@
-package com.when0matters.xlist;
+package com.when0matters.xlist.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.when0matters.xlist.R;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
