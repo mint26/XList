@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(mLinearLayoutManager);
         xListSQLiteHelper = XListSQLiteHelper.getInstance(this);
-        items = Item.getAllItems(xListSQLiteHelper);
+        items = Item.getAllItems(xListSQLiteHelper, true);
         itemAdapter = new ItemAdapter(items, this);
         recyclerView.setAdapter(itemAdapter);
 

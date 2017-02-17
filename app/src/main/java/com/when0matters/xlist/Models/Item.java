@@ -8,8 +8,8 @@ import android.os.Parcelable;
 
 import com.when0matters.xlist.DB.XListContract;
 import com.when0matters.xlist.DB.XListSQLiteHelper;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class Item implements Parcelable {
     private int _Id;
     private String Name;
     private String Description;
-    private String DueDate;
+    private Date DueDate;
     private int Priority;
     private int IsCompleted;
     private Category Category;
@@ -30,7 +30,7 @@ public class Item implements Parcelable {
     //region constructor, getter and setter
     public Item(){}
 
-    public Item(int _Id, String name, String description, String dueDate, int priority, int isCompleted, Category category) {
+    public Item(int _Id, String name, String description, Date dueDate, int priority, int isCompleted, Category category) {
         this._Id = _Id;
         Name = name;
         Description = description;
@@ -66,35 +66,38 @@ public class Item implements Parcelable {
         Description = description;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return DueDate;
     }
 
 
-    public void setDueDate(String date) {
+    public void setDueDate(Date date) {
         DueDate = date;
     }
 
-    public int getDay(){
-        String day = getDueDate().substring(6);
-        return Integer.parseInt(day);
+    public Long getLongDueDate(){
+       return getDueDate() != null ? getDueDate().getTime() : -1;
     }
-
-    public int getMonth(){
-        String mth = getDueDate().substring(4,6);
-        return Integer.parseInt(mth) - 1;
-    }
-
-    public int getYear(){
-        String year = getDueDate().substring(0,4);
-        return Integer.parseInt(year);
-    }
-
-    public Date getDate(){
-        Calendar c = Calendar.getInstance();
-        c.set(getYear(), getMonth(), getDay(), 0, 0);
-        return c.getTime();
-    }
+//    public int getDay(){
+//        String day = getDueDate().substring(6);
+//        return Integer.parseInt(day);
+//    }
+//
+//    public int getMonth(){
+//        String mth = getDueDate().substring(4,6);
+//        return Integer.parseInt(mth) - 1;
+//    }
+//
+//    public int getYear(){
+//        String year = getDueDate().substring(0,4);
+//        return Integer.parseInt(year);
+//    }
+//
+//    public Date getDate(){
+//        Calendar c = Calendar.getInstance();
+//        c.set(getYear(), getMonth(), getDay(), 0, 0);
+//        return c.getTime();
+//    }
 
     public int getPriority() {
         return Priority;
@@ -131,7 +134,7 @@ public class Item implements Parcelable {
         dest.writeString(getName());
         dest.writeString(getDescription());
         dest.writeInt(getPriority());
-        dest.writeString(getDueDate());
+        dest.writeLong(getLongDueDate());
         dest.writeInt(get_Id());
         dest.writeInt(getIsCompleted());
     }
@@ -147,7 +150,8 @@ public class Item implements Parcelable {
         setName(in.readString());
         setDescription(in.readString());
         setPriority(in.readInt());
-        setDueDate(in.readString());
+        long date = in.readLong();
+        setDueDate(date == -1 ? null : new Date(date));
         set_Id(in.readInt());
         setIsCompleted(in.readInt());
 
@@ -189,22 +193,27 @@ public class Item implements Parcelable {
         String sortOrder =
                 XListContract.ItemSchema.COLUMN_DUEDATE + " ASC";
 
-        //String whereClause = XListContract.ItemSchema.COLUMN_DUEDATE+"=?";
+        //String whereClause = XListContract.ItemSchema.COLUMN_DUEDATE+" >= '2017-02-06'";
+        //String txt = DateHelper.GetCurrentDateString();
+        //String [] whereArgs = {"2017-02-06"};
 
         Cursor cursor = db.query(
                 XListContract.ItemSchema.TABLE_NAME,                     // The table to query
                 projection,                          // The columns to return
-                null,                                // The columns for the WHERE clause
-                null,                                // The values for the WHERE clause
+                null,                         // The columns for the WHERE clause
+                null,                           // The values for the WHERE clause
                 null,                                // don't group the rows
                 null,                                // don't filter by row groups
                 sortOrder                            // The sort order
         );
 
         List<Item> items = new ArrayList<Item>();
+
+
         while(cursor.moveToNext()) {
+            long date = cursor.getLong(3);
             Item item = new Item(cursor.getInt(0), cursor.getString(1),
-                    cursor.getString(2),cursor.getString(3), cursor.getInt(4),cursor.getInt(5), null);
+                    cursor.getString(2),date == -1 ? null : new Date(date), cursor.getInt(4),cursor.getInt(5), null);
             items.add(item);
         }
         cursor.close();
@@ -244,9 +253,9 @@ public class Item implements Parcelable {
         );
         Item item = null;
         if (cursor != null) {
-            cursor.moveToFirst();
+            long date = cursor.getLong(3);
             item = new Item(cursor.getInt(0), cursor.getString(1),
-                    cursor.getString(2),cursor.getString(3), cursor.getInt(4),cursor.getInt(5), null);
+                    cursor.getString(2),date == -1 ? null : new Date(date), cursor.getInt(4),cursor.getInt(5), null);
         }
         cursor.close();
 
@@ -261,7 +270,7 @@ public class Item implements Parcelable {
         ContentValues values = new ContentValues();
         values.put(XListContract.ItemSchema.COLUMN_NAME, item.getName());
         values.put(XListContract.ItemSchema.COLUMN_DESCRIPTION, item.getDescription());
-        values.put(XListContract.ItemSchema.COLUMN_DUEDATE, item.getDueDate());
+        values.put(XListContract.ItemSchema.COLUMN_DUEDATE, item.getLongDueDate());
         values.put(XListContract.ItemSchema.COLUMN_PRIORITY, item.getPriority());
         values.put(XListContract.ItemSchema.COLUMN_ISCOMPLETED, item.getIsCompleted());
 
@@ -279,7 +288,7 @@ public class Item implements Parcelable {
         ContentValues values = new ContentValues();
         values.put(XListContract.ItemSchema.COLUMN_NAME, item.getName());
         values.put(XListContract.ItemSchema.COLUMN_DESCRIPTION, item.getDescription());
-        values.put(XListContract.ItemSchema.COLUMN_DUEDATE, item.getDueDate());
+        values.put(XListContract.ItemSchema.COLUMN_DUEDATE, item.getLongDueDate());
         values.put(XListContract.ItemSchema.COLUMN_PRIORITY, item.getPriority());
         values.put(XListContract.ItemSchema.COLUMN_ISCOMPLETED, item.getIsCompleted());
 

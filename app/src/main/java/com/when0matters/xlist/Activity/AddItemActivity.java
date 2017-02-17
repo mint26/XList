@@ -98,11 +98,11 @@ public class AddItemActivity extends AppCompatActivity {
         int year = datePicker.getYear();
         Calendar c = Calendar.getInstance();
         c.set(year, month, day, 0, 0);
-        currentItem.setDueDate(DateHelper.formatDate(c.getTime()));
+        currentItem.setDueDate((c.getTime()));
         currentItem.setName(task);
         currentItem.setDescription(description);
         currentItem.setPriority(Item.GetPriorityOrdinal(priority));
-        errMsg = ValidateMandatoryFields(task, currentItem.getDate());
+        errMsg = ValidateMandatoryFields(task, currentItem.getDueDate());
 
     }
 
@@ -110,9 +110,12 @@ public class AddItemActivity extends AppCompatActivity {
         ((EditText)findViewById(R.id.etTask)).setText(currentItem.getName());
         ((EditText)findViewById(R.id.etDescription)).setText(currentItem.getDescription());
         ((Spinner)findViewById(R.id.spinnerPriority)).setSelection(currentItem.getPriority());
-        ((DatePicker)findViewById(R.id.datePickerDueDate)).updateDate(currentItem.getYear(),
-                                                                    currentItem.getMonth(),
-                                                                    currentItem.getDay());
+        int year = DateHelper.GetYear(currentItem.getDueDate());
+        int month = DateHelper.GetMonth(currentItem.getDueDate());
+        int day = DateHelper.GetDay(currentItem.getDueDate());
+        ((DatePicker)findViewById(R.id.datePickerDueDate)).updateDate(year,
+                                                                    month,
+                                                                    day);
     }
 
     public void returnIntent(){

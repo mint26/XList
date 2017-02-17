@@ -87,7 +87,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Item item = itemsDataset.get(position);
-        String itemDate = DateHelper.formatDayMonthYear(item.getDate());
+        String itemDate = DateHelper.formatDayMonthYear(item.getDueDate());
         if (!prevDate.equalsIgnoreCase(itemDate)) {
             holder.tvDividerDate.setVisibility(View.VISIBLE);
             holder.tvDividerDate.setText(itemDate);
@@ -97,8 +97,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
         }
         prevDate = itemDate;
         holder.tvTaskName.setText(item.getName());
-        holder.tvDay.setText(DateHelper.formatDay(item.getDate()));
-        holder.tvMthYear.setText(DateHelper.formatMonthYear(item.getDate()));
+        holder.tvDay.setText(DateHelper.formatDay(item.getDueDate()));
+        holder.tvMthYear.setText(DateHelper.formatMonthYear(item.getDueDate()));
         holder.tvPriorityText.setText(item.getPriorityString());
         holder.cbStatus.setChecked(item.getIsCompleted() == 1);
         holder.cbStatus.setTag(position);
@@ -191,8 +191,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
         if (requestCode == Constants.ADD_ITEM_REQUEST_CODE) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                Item item = data.getParcelableExtra(Constants.TODOITEM);
-                itemsDataset.add(item);
+                XListSQLiteHelper xListSQLiteHelper = XListSQLiteHelper.getInstance(XListApplication.getContext());
+                updateData(Item.getAllItems(xListSQLiteHelper, true));
                 notifyDataSetChanged();
                 Toast.makeText(mContext, getString(R.string.item_added_successfully), Toast.LENGTH_SHORT).show();
             } else if (resultCode != RESULT_CANCELED) {
@@ -204,7 +204,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
                 int position = data.getIntExtra(Constants.POSITION, -1);
                 if (position != -1) {
                     XListSQLiteHelper xListSQLiteHelper = XListSQLiteHelper.getInstance(XListApplication.getContext());
-                    updateData(Item.getAllItems(xListSQLiteHelper));
+                    updateData(Item.getAllItems(xListSQLiteHelper, true));
                     Toast.makeText(mContext, getString(R.string.item_updated_successfully), Toast.LENGTH_SHORT).show();
                 }
             } else if (resultCode != RESULT_CANCELED) {
@@ -214,6 +214,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> im
     }
 
     public void updateData(List<Item> items) {
+        prevDate = "";
         itemsDataset.clear();
         itemsDataset.addAll(items);
         notifyDataSetChanged();
